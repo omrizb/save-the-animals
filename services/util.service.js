@@ -1,11 +1,24 @@
+import { parse } from 'csv-parse'
 import fs from 'fs'
 import fr from 'follow-redirects'
 const { http, https } = fr
 
 export const utilService = {
+    loadCSV,
     readJsonFile,
     download,
     httpGet,
+}
+
+function loadCSV(path) {
+    return new Promise((resolve, reject) => {
+        const animals = []
+        fs.createReadStream(path)
+            .pipe(parse({ columns: true, skip_empty_lines: true }))
+            .on('data', row => animals.push(row))
+            .on('end', () => resolve(animals))
+            .on('error', reject)
+    })
 }
 
 function readJsonFile(path) {
