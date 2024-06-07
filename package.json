@@ -1,0 +1,12 @@
+{
+  "name": "save-the-animals",
+  "version": "1.0.0",
+  "description": "",
+  "main": "save-the-animals.js",
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
