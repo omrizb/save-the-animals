@@ -15,7 +15,10 @@ function loadCSV(path) {
         const animals = []
         fs.createReadStream(path)
             .pipe(parse({ columns: true, skip_empty_lines: true }))
-            .on('data', row => animals.push(row))
+            .on('data', row => {
+                Object.keys(row).forEach(key => row[key] = row[key].trim())
+                animals.push(row)
+            })
             .on('end', () => resolve(animals))
             .on('error', reject)
     })

@@ -10,6 +10,7 @@
     "cheerio": "^1.0.0-rc.12",
     "csv": "^6.3.9",
     "follow-redirects": "^1.15.6",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "pdfkit": "^0.15.0"
   }
 }
