@@ -3,14 +3,17 @@ import { utilService } from "./services/util.service.js"
 import { imgService } from "./services/img.service.js"
 import { pdfService } from "./services/pdf.service.js"
 
+const DATA_CSV = './data/rare-animals.csv'
 const OUTPUT_DIR = './output'
-const IMAGES_PER_ANIMAL = 8
+const IMAGES_PER_ANIMAL = 5
+const PDF_FILE_NAME = 'SaveTheAnimals.pdf'
+const PDF_IMAGES_PER_ROW = 2
 
 if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR)
 }
 
-utilService.loadCSV('./data/rare-animals.csv')
+utilService.loadCSV(DATA_CSV)
     .then(animals => {
         const animalsWithImgUrlsPrms = animals.map(_createImgsUrls)
         return Promise.all(animalsWithImgUrlsPrms)
@@ -20,7 +23,7 @@ utilService.loadCSV('./data/rare-animals.csv')
         return Promise.all(animalsWithImgsPrms)
     })
     .then(animalsWithImgs => {
-        pdfService.buildAnimalsPDF(animalsWithImgs, 'SaveTheAnimals.pdf', { imgsPerRow: 3 })
+        pdfService.buildAnimalsPDF(animalsWithImgs, PDF_FILE_NAME, { imgsPerRow: PDF_IMAGES_PER_ROW })
     })
 
 function _createImgsUrls(animal) {
