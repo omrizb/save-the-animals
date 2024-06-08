@@ -12,25 +12,27 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 
 utilService.loadCSV('./data/rare-animals.csv')
     .then(animals => {
-        const animalsWithImgUrlsPrms = animals.map(animal => {
-            return imgService.suggestImgs(animal.name, IMAGES_PER_ANIMAL)
-                .then(imgsUrls => {
-                    const imgs = imgsUrls.map(url => ({
-                        url,
-                        localPath: ''
-                    }))
-                    return { ...animal, imgs }
-                })
-        })
+        const animalsWithImgUrlsPrms = animals.map(_createImgsUrls)
         return Promise.all(animalsWithImgUrlsPrms)
     })
     .then(animalsWithImgUrls => {
-        const animalsWithImgsPrms = animalsWithImgUrls.map(animal => _downloadAnimalImgs(animal))
+        const animalsWithImgsPrms = animalsWithImgUrls.map(_downloadAnimalImgs)
         return Promise.all(animalsWithImgsPrms)
     })
     .then(animalsWithImgs => {
         pdfService.buildAnimalsPDF(animalsWithImgs, 'SaveTheAnimals.pdf', { imgsPerRow: 3 })
     })
+
+function _createImgsUrls(animal) {
+    return imgService.suggestImgs(animal.name, IMAGES_PER_ANIMAL)
+        .then(imgsUrls => {
+            const imgs = imgsUrls.map(url => ({
+                url,
+                localPath: ''
+            }))
+            return { ...animal, imgs }
+        })
+}
 
 function _downloadAnimalImgs(animal) {
     const imgsUrlsPrms = animal.imgs.map((img, index) => {
