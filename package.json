@@ -11,6 +11,7 @@
     "csv": "^6.3.9",
     "follow-redirects": "^1.15.6",
     "fs": "^0.0.1-security",
+    "image-size": "^1.1.1",
     "pdfkit": "^0.15.0"
   }
 }
